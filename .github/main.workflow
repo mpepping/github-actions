@@ -27,3 +27,33 @@ action "push pdk-validate" {
   needs = ["build pdk-validate"]
   args = "push mpepping/pdk-validate-github-action"
 }
+
+workflow "shellcheck docker build" {
+  on = "push"
+  resolves = [
+    "push shellcheck"
+  ]
+}
+
+action "shellcheck is master" {
+  uses = "actions/bin/filter@3c98a2679187369a2116d4f311568596d3725740"
+  args = "branch master"
+}
+
+action "shellcheck docker registry" {
+  uses = "actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+  needs = ["shellcheck is master"]
+  secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
+}
+
+action "build shellcheck" {
+  uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+  needs = ["shellcheck docker registry"]
+  args = "build -t mpepping/shellcheck-github-action ./shellcheck"
+}
+
+action "push shellcheck" {
+  uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+  needs = ["build shellcheck"]
+  args = "push mpepping/shellcheck-github-action"
+}
