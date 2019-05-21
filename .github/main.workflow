@@ -1,7 +1,7 @@
 workflow "pdk-validate docker build" {
   on = "push"
   resolves = [
-    "push pdk-validate"
+    "push pdk-validate",
   ]
 }
 
@@ -31,7 +31,7 @@ action "push pdk-validate" {
 workflow "shellcheck docker build" {
   on = "push"
   resolves = [
-    "push shellcheck"
+    "push shellcheck",
   ]
 }
 
@@ -58,11 +58,11 @@ action "push shellcheck" {
   args = "push mpepping/shellcheck-github-action"
 }
 
-workflow " docker build" {
-  on = "push"
+workflow " dockerhub-metadata build" {
   resolves = [
-    "push docker-hub-metadata"
+    "push docker-hub-metadata",
   ]
+  on = "push"
 }
 
 action "docker-hub-metadata is master" {
