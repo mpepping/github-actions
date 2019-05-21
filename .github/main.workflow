@@ -57,3 +57,36 @@ action "push shellcheck" {
   needs = ["build shellcheck"]
   args = "push mpepping/shellcheck-github-action"
 }
+
+workflow " docker build" {
+  on = "push"
+  resolves = [
+    "push docker-hub-metadata"
+  ]
+}
+
+action "docker-hub-metadata is master" {
+  uses = "actions/bin/filter@3c98a2679187369a2116d4f311568596d3725740"
+  args = "branch master"
+}
+
+action "docker-hub-metadata docker registry" {
+  uses = "actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+  needs = ["docker-hub-metadata is master"]
+  secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
+  env = {
+    IMAGE = "mpepping/docker-demo"
+  }
+}
+
+action "build docker-hub-metadata" {
+  uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+  needs = ["docker-hub-metadata docker registry"]
+  args = "build -t mpepping/docker-hub-metadata-github-action ./docker-hub-metadata"
+}
+
+action "push docker-hub-metadata" {
+  uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+  needs = ["build docker-hub-metadata"]
+  args = "push mpepping/docker-hub-metadata-github-action"
+}
