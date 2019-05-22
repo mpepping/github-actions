@@ -1,14 +1,17 @@
 # Docker Hub metadata action
 
-Run `pdk validate` on Puppet code:
+Post a repo's README.md file as a repositories "Full Description" on Docker Hub.
 
 ```ruby
 workflow "Set Docker Hub metadata" {
   on = "push"
-  resolves = ["Validator"]
+  resolves = ["Metadata"]
 }
 
-action "Validator" {
+action "Metadata" {
   uses = "docker://mpepping/docker-hub-metadata-github-action"
+    env = {
+      IMAGE = "mpepping/docker-demo"
+  }
 }
 ```
