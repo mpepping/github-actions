@@ -83,9 +83,6 @@ action "docker-hub-metadata docker registry" {
     "DOCKER_USERNAME",
     "DOCKER_PASSWORD",
   ]
-  env = {
-    IMAGE = "mpepping/docker-demo"
-  }
 }
 
 action "build docker-hub-metadata" {

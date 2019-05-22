@@ -10,8 +10,9 @@ workflow "Set Docker Hub metadata" {
 
 action "Metadata" {
   uses = "docker://mpepping/docker-hub-metadata-github-action"
-    env = {
-      IMAGE = "mpepping/docker-demo"
+  secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
+  env = {
+    IMAGE = "mpepping/docker-demo"
   }
 }
 ```
