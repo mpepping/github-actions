@@ -13,6 +13,7 @@ LABEL "maintainer" = "https://github.com/mpepping"
 RUN apk add --update \
     bash \
     curl \
+    jq \
  && rm -rf /var/cache/apk/*
 ADD entrypoint.sh  /entrypoint.sh
 RUN chmod +x /entrypoint.sh
