@@ -13,7 +13,10 @@ action "pdk-validate is master" {
 action "pdk-validate docker registry" {
   uses = "actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108"
   needs = ["pdk-validate is master"]
-  secrets = ["DOCKER_USERNAME"]
+  secrets = [
+    "DOCKER_USERNAME",
+    "DOCKER_PASSWORD",
+  ]
 }
 
 action "build pdk-validate" {
@@ -43,7 +46,10 @@ action "shellcheck is master" {
 action "shellcheck docker registry" {
   uses = "actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108"
   needs = ["shellcheck is master"]
-  secrets = ["DOCKER_USERNAME"]
+  secrets = [
+    "DOCKER_USERNAME",
+    "DOCKER_PASSWORD",
+  ]
 }
 
 action "build shellcheck" {
