@@ -1,0 +1,25 @@
+on: push
+name: shellcheck docker build
+jobs:
+  shellcheckIsMaster:
+    name: shellcheck is master
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: shellcheck is master
+      uses: actions/bin/filter@3c98a2679187369a2116d4f311568596d3725740
+      with:
+        args: branch master
+    - name: shellcheck docker registry
+      uses: actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108
+      env:
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    - name: build shellcheck
+      uses: actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108
+      with:
+        args: build -t mpepping/shellcheck-github-action ./shellcheck
+    - name: push shellcheck
+      uses: actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108
+      with:
+        args: push mpepping/shellcheck-github-action
