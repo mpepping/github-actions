@@ -2,17 +2,25 @@
 
 Post a repo's README.md file as a repositories "Full Description" on Docker Hub.
 
-```ruby
-workflow "Set Docker Hub metadata" {
-  on = "push"
-  resolves = ["Metadata"]
-}
+`.github/workflows/push_docker_image.yml`
+```yaml
 
-action "Metadata" {
-  uses = "docker://mpepping/docker-hub-metadata-github-action"
-  secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
-  env = {
-    IMAGE = "mpepping/docker-demo"
-  }
-}
+name: UpdateDockerHubMetadata
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  update_docker_hub_metadata:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Update Docker hub metadata
+      uses: docker://mpepping/docker-hub-metadata-github-action
+      env:
+        IMAGE: DOCKER_USERNAME/docker-demo
+        DOCKER_USERNAME: DOCKER_USERNAME
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 ```
