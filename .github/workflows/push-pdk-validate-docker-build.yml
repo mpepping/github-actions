@@ -1,0 +1,25 @@
+on: push
+name: pdk-validate docker build
+jobs:
+  pdk-validateIsMaster:
+    name: pdk-validate is master
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: pdk-validate is master
+      uses: actions/bin/filter@3c98a2679187369a2116d4f311568596d3725740
+      with:
+        args: branch master
+    - name: pdk-validate docker registry
+      uses: actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108
+      env:
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    - name: build pdk-validate
+      uses: actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108
+      with:
+        args: build -t mpepping/pdk-validate-github-action ./pdk-validate
+    - name: push pdk-validate
+      uses: actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108
+      with:
+        args: push mpepping/pdk-validate-github-action
