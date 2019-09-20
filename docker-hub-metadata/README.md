@@ -3,8 +3,8 @@
 Post a repo's README.md file as a repositories "Full Description" on Docker Hub.
 
 `.github/workflows/push_docker_image.yml`
-```yaml
 
+```yaml
 name: UpdateDockerHubMetadata
 
 on:
@@ -20,7 +20,7 @@ jobs:
     - name: Update Docker hub metadata
       uses: docker://mpepping/docker-hub-metadata-github-action
       env:
-        IMAGE: DOCKER_USERNAME/docker-demo
+        IMAGE: mpepping/docker-demo
         DOCKER_USERNAME: DOCKER_USERNAME
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 ```

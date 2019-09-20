@@ -2,9 +2,6 @@
 # 
 # Post a repo's README.md file as repo description (Full Description)
 # on Docker Hub.
-# 
-# Example from:
-# <https://github.com/moikot/golang-dep/blob/master/.travis/push.sh>
 
 set -eu
 
@@ -13,6 +10,15 @@ token(){
     -H "Content-Type: application/json" \
     -d '{"username": "'"$DOCKER_USERNAME"'", "password": "'"$DOCKER_PASSWORD"'"}' \
     https://hub.docker.com/v2/users/login/ | jq -r .token)
+}
+
+filetest(){
+  if [[ -f "README.md" ]]; then 
+    echo "Found README.md and it's a file .."
+  else
+    echo "Could not find a README.md file in the workspace .."
+    exit 1
+  fi
 }
 
 metadata(){
@@ -33,6 +39,7 @@ metadata(){
   fi
 }
 
+filetest
 metadata
 
 exit $?
