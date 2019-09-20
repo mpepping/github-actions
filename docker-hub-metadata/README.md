@@ -20,7 +20,7 @@ jobs:
     - name: Update Docker hub metadata
       uses: docker://mpepping/docker-hub-metadata-github-action
       env:
-        IMAGE: DOCKER_USERNAME/docker-demo
-        DOCKER_USERNAME: DOCKER_USERNAME
+        IMAGE: mpepping/docker-demo
+        DOCKER_USERNAME: mpepping
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 ```
